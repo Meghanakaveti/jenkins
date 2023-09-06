@@ -39,11 +39,22 @@ pipeline {
         }
     }
     post {
-        success {
-            // Send notification email with logs on success
-        }
-        failure {
-            // Send notification email with logs on failure
-        }
+    success {
+        emailext (
+            subject: "Pipeline Success: ${currentBuild.fullDisplayName}",
+            body: "The pipeline has completed successfully. Logs are attached.",
+            to: "your-email@example.com",
+            attachLog: true,
+        )
     }
+    failure {
+        emailext (
+            subject: "Pipeline Failure: ${currentBuild.fullDisplayName}",
+            body: "The pipeline has failed. Logs are attached.",
+            to: "your-email@example.com",
+            attachLog: true,
+        )
+    }
+}
+
 }
